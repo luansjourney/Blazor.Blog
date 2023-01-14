@@ -1,26 +1,30 @@
 ﻿using Blazor.Blog.Shared;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 
 namespace Blazor.Blog.Client.Services
 {
 	public class BlogService : IBlogService
 	{
 
-		public List<BlogPost> Posts { get; set; } = new List<BlogPost>()
-		{
-			new BlogPost {Url = "new-tutorial", Title = "A new Tutorial about Blazor", Description = "This is a new tutorial...", Content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."},
-			new BlogPost {Url = "first-post" ,Title = "My Second test blog post",	Description = "This is my new blog...", Content = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." }
-		};
+		private readonly HttpClient _http;
+
+		public BlogService(HttpClient http) {
+			_http = http;
+		}
 	
-	public BlogPost GetBlogPostByUrl(string url)
+	public async Task<BlogPost> GetBlogPostByUrl(string url)
 		{
-			return Posts.FirstOrDefault(p => p.Url.ToLower().Equals(url.ToLower()));
+			var post = await _http.GetFromJsonAsync<BlogPost>($"api/Blog/{url}");
+			return post;
 		}
 
-		public List<BlogPost> GetBlogPosts()
+		public async Task<List<BlogPost>> GetBlogPosts()
 		{
-			return Posts;
+			return await _http.GetFromJsonAsync<List<BlogPost>>($"api/Blog");
 		}
 	}
 }

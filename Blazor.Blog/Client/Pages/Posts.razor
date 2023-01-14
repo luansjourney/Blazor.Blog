@@ -1,11 +1,19 @@
 ﻿@page "/posts/{url}"
 @inject Blazor.Blog.Client.Services.IBlogService BlogService
 
+@if(CurrentPost == null)
+{
+	<span>Getting that blog post from the service...</span>
+}
+else
+{
+	
 <h3>@CurrentPost.Title</h3>
 
 <div class="m-2">
 	@CurrentPost.Content
 </div>
+}
 
 @code {
 	private BlogPost CurrentPost;
@@ -13,8 +21,8 @@
 	[Parameter]
 	public string Url { get; set; }
 
-	protected override void OnInitialized()
+	protected override async Task OnInitializedAsync()
 	{
-		CurrentPost = BlogService.GetBlogPostByUrl(Url);
+		CurrentPost = await BlogService.GetBlogPostByUrl(Url);
 	}
 }
