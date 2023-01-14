@@ -1,0 +1,22 @@
+﻿@inject Blazor.Blog.Client.Services.IBlogService Blogservice
+<h3>BlogPost</h3>
+
+@foreach (var post in Posts)
+{
+	<div class="m-2">
+		<h4>@post.Title</h4>
+		<p>
+			@post.Description
+		</p>
+		<div><a href="/posts/@post.Url">Read More...</a></div>
+	</div>
+}
+
+@code {
+	private List<BlogPost> Posts = new List<BlogPost>();
+
+	protected override void OnInitialized()
+	{
+		Posts = Blogservice.GetBlogPosts();	
+	}
+}
