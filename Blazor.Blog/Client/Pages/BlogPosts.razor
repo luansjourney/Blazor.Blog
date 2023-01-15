@@ -3,17 +3,22 @@
 
 @foreach (var post in Posts)
 {
-	<div class="m-2">
-		<h4>@post.Title</h4>
-		<p>
-			@post.Description
-		</p>
-		<div><a href="/posts/@post.Url">Read More...</a></div>
+
+	<div class="card my-4">
+		<div class="card-img" style="background-image: url('@(post.Image ?? placeholderImage)');"></div>
+		<div class="card-body">
+			<h4 class="card-title">@post.Title</h4>
+			<p class="card-text">@post.Description</p>
+			<p class="card-text"><small class="text-muted">@post.DateCreated.ToLongDateString()</small></p>
+			<a href="/posts/@post.Url" class="btn btn-primary">Read More...</a>
+		</div>
 	</div>
 }
 
 @code {
 	private List<BlogPost> Posts = new List<BlogPost>();
+
+	string placeholderImage = "https://via.placeholder.com/1060x180";
 
 	protected override async Task OnInitializedAsync()
 	{

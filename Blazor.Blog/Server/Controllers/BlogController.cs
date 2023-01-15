@@ -23,7 +23,7 @@ namespace Blazor.Blog.Server.Controllers
 		[HttpGet]
 		public ActionResult<List<BlogPost>> Get()
 		{
-			return Ok(_context.BlogPosts);
+			return Ok(_context.BlogPosts.OrderByDescending(post => post.DateCreated));
 		}
 
 		[HttpGet("{url}")]

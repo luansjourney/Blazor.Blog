@@ -7,11 +7,12 @@
 }
 else
 {
-	
+<div class="post-img" style="background-image: url(@(CurrentPost.Image ?? placeholderImage))"></div>
+
 <h3>@CurrentPost.Title</h3>
 
 <div class="m-2">
-	@CurrentPost.Content
+		@((MarkupString)Markdown.ToHtml(CurrentPost.Content))
 </div>
 }
 
@@ -20,6 +21,8 @@ else
 
 	[Parameter]
 	public string Url { get; set; }
+
+	string placeholderImage = "https://via.placeholder.com/1060x300";
 
 	protected override async Task OnInitializedAsync()
 	{
