@@ -12,5 +12,8 @@ namespace Blazor.Blog.Client.Services
 		//To receive a single one
 		Task<BlogPost> GetBlogPostByUrl(string url);
 
+		//To create a new blog post
+		Task<BlogPost> CreateNewPost(BlogPost request);
+
 	}
 }

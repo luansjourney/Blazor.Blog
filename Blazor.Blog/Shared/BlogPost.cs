@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Blazor.Blog.Shared
 {
@@ -6,10 +7,13 @@ namespace Blazor.Blog.Shared
     {
         public int Id { get; set; }
 
+        [Required, StringLength(20, ErrorMessage = "Please use only 20 characters")]
         public string Url { get; set; }
 
+        [Required]
         public string Title { get; set; }
 
+        [Required]
         public string Content { get; set; }
 
         public string Description { get; set; }
