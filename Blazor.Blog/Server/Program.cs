@@ -78,7 +78,7 @@ namespace Blazor.Blog.Server
 			// This middleware serves generated Swagger document as a JSON endpoint
 
 			app.UseHttpsRedirection();
-
+			app.UseBlazorFrameworkFiles();
 			app.UseStaticFiles();
 
 			app.UseRouting();
