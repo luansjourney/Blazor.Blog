@@ -1,4 +1,4 @@
-﻿using Blazor.Blog.Shared;
+﻿using Blazor.Blog.Shared.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Blazor.Blog.Client.Services
 {
-	public class BlogService : IBlogService
+    public class BlogService : IBlogService
 	{
 
 		private readonly HttpClient _http;

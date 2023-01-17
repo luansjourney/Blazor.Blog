@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Blazor.Blog.Shared
+namespace Blazor.Blog.Shared.Model
 {
     public class BlogPost
     {

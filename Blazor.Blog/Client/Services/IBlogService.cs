@@ -1,10 +1,10 @@
-﻿using Blazor.Blog.Shared;
+﻿using Blazor.Blog.Shared.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Blazor.Blog.Client.Services
 {
-	public interface IBlogService
+    public interface IBlogService
 	{
 		//A method that receives all the blog posts
 		Task<List<BlogPost>> GetBlogPosts();

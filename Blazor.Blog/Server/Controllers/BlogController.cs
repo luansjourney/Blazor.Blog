@@ -1,5 +1,6 @@
 ﻿using Blazor.Blog.Server.Data;
-using Blazor.Blog.Shared;
+using Blazor.Blog.Shared.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Blazor.Blog.Server.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
+
 	public class BlogController : ControllerBase
 	{
 		private readonly DataContext _context;
@@ -40,6 +42,7 @@ namespace Blazor.Blog.Server.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public async Task<ActionResult<BlogPost>> CreateNewPost(BlogPost request)
 		{
 			_context.Add(request);
