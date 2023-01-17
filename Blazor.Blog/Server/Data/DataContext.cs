@@ -1,6 +1,5 @@
 ﻿using Blazor.Blog.Shared.Model;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Blazor.Blog.Server.Data
 {

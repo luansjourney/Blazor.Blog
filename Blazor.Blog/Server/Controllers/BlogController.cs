@@ -11,6 +11,7 @@ namespace Blazor.Blog.Server.Controllers
 {
     [Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 
 	public class BlogController : ControllerBase
 	{
@@ -22,13 +23,13 @@ namespace Blazor.Blog.Server.Controllers
 		}
 
 
-		[HttpGet]
+		[HttpGet, AllowAnonymous]
 		public ActionResult<List<BlogPost>> Get()
 		{
 			return Ok(_context.BlogPosts.OrderByDescending(post => post.DateCreated));
 		}
 
-		[HttpGet("{url}")]
+		[HttpGet("{url}"), AllowAnonymous]
 		public ActionResult<BlogPost> Get(string url)
 		{
 			var post = _context.BlogPosts.FirstOrDefault(p => p.Url.ToLower().Equals(url.ToLower()));
@@ -42,7 +43,6 @@ namespace Blazor.Blog.Server.Controllers
 		}
 
 		[HttpPost]
-		[Authorize]
 		public async Task<ActionResult<BlogPost>> CreateNewPost(BlogPost request)
 		{
 			_context.Add(request);
