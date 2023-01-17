@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿global using Blazor.Blog.Server.Services.UserService;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -33,6 +34,8 @@ namespace Blazor.Blog.Server
 			builder.Services.AddControllersWithViews();
 			builder.Services.AddRazorPages();
 			builder.Services.AddEndpointsApiExplorer();
+			builder.Services.AddScoped<IUserService, UserService>();
+			builder.Services.AddHttpContextAccessor();
 			builder.Services.AddSwaggerGen(options => {
 					options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
 					{

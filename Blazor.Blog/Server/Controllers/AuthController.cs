@@ -1,6 +1,7 @@
 ﻿using Blazor.Blog.Server.Auth;
 using Blazor.Blog.Server.Data;
 using Blazor.Blog.Shared.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using SymmetricSecurityKey = Microsoft.IdentityModel.Tokens.SymmetricSecurityKey;
+using Blazor.Blog.Server.Services.UserService;
 
 namespace Blazor.Blog.Server.Controllers
 {
@@ -27,12 +29,22 @@ namespace Blazor.Blog.Server.Controllers
 		public static User user = new User();
 		private readonly IConfiguration _configuration;
 		private readonly DataContext _context;
+		private readonly IUserService _userService;
 
-		public AuthController(IConfiguration configuration, DataContext context)
+		public AuthController(IConfiguration configuration, DataContext context, IUserService userService)
 		{
 			_configuration = configuration;
 			_context = context;
+			_userService = userService;
 		}
+
+		[HttpGet, Authorize]
+		public ActionResult<string> GetMe()
+		{
+			var userName = _userService.GetMyName();
+			return Ok(userName);
+		}
+
 
 		[HttpPost("register")]
 		public async Task<ActionResult<User>> Register(UserDto request)
