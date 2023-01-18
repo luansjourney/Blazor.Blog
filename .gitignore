@@ -15,6 +15,7 @@
 #Server 
 Blazor.Blog.Server/appsettings.json
 Migrations/
+Blazor.Blog/Server/Migrations/*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
