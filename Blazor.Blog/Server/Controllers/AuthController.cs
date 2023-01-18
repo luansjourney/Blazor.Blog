@@ -18,6 +18,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using SymmetricSecurityKey = Microsoft.IdentityModel.Tokens.SymmetricSecurityKey;
 using Blazor.Blog.Server.Services.UserService;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Blazor.Blog.Server.Controllers
 {
@@ -26,7 +27,8 @@ namespace Blazor.Blog.Server.Controllers
 	public class AuthController : ControllerBase
 	{
 
-		public static User user = new User();
+		[SuppressMessage("Usage", "CA2211:Non-constant fields should not be visible", Justification = "Don't apply")]
+		public static User user = new();
 		private readonly IConfiguration _configuration;
 		private readonly DataContext _context;
 		private readonly IUserService _userService;
@@ -64,30 +66,26 @@ namespace Blazor.Blog.Server.Controllers
 		[HttpPost("login")]
 		public async Task<ActionResult<string>> Login(UserDto request)
 		{
-
 			var loginUser = _context.Users.FirstOrDefault(u => u.Username == request.Username);
-
-
 
 			if (loginUser == null)
 			{
-				return BadRequest("User not found.");
+				return await Task.FromResult(BadRequest("User not found."));
 			}
 			
 			if(!VerifyPasswordHash(request.Password, loginUser.PasswordHash, loginUser.PasswordSalt))
 			{
-				return BadRequest("Wrong password.");
+				return await Task.FromResult(BadRequest("Wrong password."));
 			}
 
 			string token = CreateToken(loginUser);
-			return Ok(token);
-			
+			return await Task.FromResult(Ok(token));
 		}
 
 		private string CreateToken(User user)
 		{
 			//claims
-			List<Claim> claims = new List<Claim>
+			List<Claim> claims = new()
 			{
 				new Claim(ClaimTypes.Name, user.Username),
 				new Claim(ClaimTypes.Role, "Admin")
@@ -108,22 +106,18 @@ namespace Blazor.Blog.Server.Controllers
 			return jwt;
 		}
 
-		private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+		private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
 		{
-			using(var hmac = new HMACSHA512())
-			{
-				passwordSalt = hmac.Key;
-				passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-			}
+			using var hmac = new HMACSHA512();
+			passwordSalt = hmac.Key;
+			passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
 		}
 
-		private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+		private static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
 		{
-			using(var hmac = new HMACSHA512(passwordSalt))
-			{
-				var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-				return computedHash.SequenceEqual(passwordHash);
-			}
+			using var hmac = new HMACSHA512(passwordSalt);
+			var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+			return computedHash.SequenceEqual(passwordHash);
 		}
 	}
 }
