@@ -41,7 +41,7 @@ namespace Blazor.Blog.Server.Controllers
 			return Ok(post);
 		}
 
-		[HttpPost,Authorize(Roles = "Admin")]
+		[HttpPost]
 		public async Task<ActionResult<BlogPost>> CreateNewPost(BlogPost request)
 		{
 			_context.Add(request);
