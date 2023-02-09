@@ -1,6 +1,7 @@
 ﻿@page "/create"
 @inject Services.Blog.IBlogService BlogService
 @inject NavigationManager NavigationManager
+@attribute [Authorize]
 
 <AuthorizeView Context="Validation">
 	<Authorized>
