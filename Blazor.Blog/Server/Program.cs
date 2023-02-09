@@ -3,13 +3,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Blazor.Blog.Server.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Blazor.Blog.Server
 {
@@ -30,12 +24,17 @@ namespace Blazor.Blog.Server
 			// Add services to the container.
 			builder.Services.AddRazorPages();
 			builder.Services.AddServerSideBlazor();
+			
 			builder.Services.AddDbContext<DataContext>(x => x.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+			
 			builder.Services.AddControllersWithViews();
 			builder.Services.AddRazorPages();
 			builder.Services.AddEndpointsApiExplorer();
+			
 			builder.Services.AddScoped<IUserService, UserService>();
+			
 			builder.Services.AddHttpContextAccessor();
+			
 			builder.Services.AddSwaggerGen(options => {
 					options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
 					{
@@ -47,6 +46,7 @@ namespace Blazor.Blog.Server
 
 						options.OperationFilter<SecurityRequirementsOperationFilter>();
 			});
+
 			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options => {
 					options.TokenValidationParameters = new TokenValidationParameters
@@ -85,9 +85,10 @@ namespace Blazor.Blog.Server
 			app.UseStaticFiles();
 
 			app.UseRouting();
-			app.UseAuthentication();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
+
 			app.MapControllers();
 			app.MapBlazorHub();
 			app.MapRazorPages();

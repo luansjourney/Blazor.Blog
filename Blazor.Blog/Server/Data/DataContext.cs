@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Blazor.Blog.Server.Data
 {
-    public class DataContext : DbContext
+	public class DataContext : DbContext
+
 	{
 		public DataContext(DbContextOptions<DataContext> options) : base(options)
 		{
