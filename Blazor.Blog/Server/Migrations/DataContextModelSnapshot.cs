@@ -81,6 +81,12 @@ namespace Blazor.Blog.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("INTEGER");
+
                     b.Property<byte[]>("PasswordHash")
                         .HasColumnType("BLOB");
 
