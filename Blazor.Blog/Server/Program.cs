@@ -32,6 +32,7 @@ namespace Blazor.Blog.Server
 			builder.Services.AddEndpointsApiExplorer();
 			
 			builder.Services.AddScoped<IUserService, UserService>();
+			builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 			
 			builder.Services.AddHttpContextAccessor();
 			
