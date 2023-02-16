@@ -13,6 +13,5 @@ namespace Blazor.Blog.Server.Data
 		
 		public DbSet<BlogPost> BlogPosts { get; set; }
 		public DbSet<User> Users { get; set; }
-		public DbSet<RefreshToken> RefreshTokens { get; set; }
 	}
 }

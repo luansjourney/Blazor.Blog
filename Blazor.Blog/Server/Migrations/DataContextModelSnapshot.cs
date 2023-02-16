@@ -59,22 +59,6 @@ namespace Blazor.Blog.Server.Migrations
                     b.ToTable("BlogPosts");
                 });
 
-            modelBuilder.Entity("Blazor.Blog.Shared.Model.RefreshToken", b =>
-                {
-                    b.Property<string>("Token")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Expires")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Token");
-
-                    b.ToTable("RefreshTokens");
-                });
-
             modelBuilder.Entity("Blazor.Blog.Shared.Model.User", b =>
                 {
                     b.Property<int>("Id")
@@ -92,15 +76,6 @@ namespace Blazor.Blog.Server.Migrations
 
                     b.Property<byte[]>("PasswordSalt")
                         .HasColumnType("BLOB");
-
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("TokenCreated")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("TokenExpires")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Username")
                         .HasColumnType("TEXT");
