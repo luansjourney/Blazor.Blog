@@ -26,7 +26,6 @@ namespace Blazor.Blog.Server
 			builder.Services.AddServerSideBlazor();
 			
 			builder.Services.AddDbContext<DataContext>(x => x.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-			
 			builder.Services.AddControllersWithViews();
 			builder.Services.AddRazorPages();
 			builder.Services.AddEndpointsApiExplorer();

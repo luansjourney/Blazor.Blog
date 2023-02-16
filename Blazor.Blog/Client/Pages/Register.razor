@@ -1,5 +1,6 @@
 ﻿@page "/register"
 @inject NavigationManager NavigationManager
+@inject IAuthService AuthService
 
 
 <h3>Register</h3>
@@ -38,8 +39,16 @@
 
 	private UserRegister user = new UserRegister();
 
-	private void HandleRegistration()
+	private async void HandleRegistration()
 	{
-		NavigationManager.NavigateTo("login");
+		var result = await AuthService.Register(user);
+
+		if (result.Success)
+		{
+			NavigationManager.NavigateTo("/");
+		}
+		else
+		{
+		}
 	}
 }

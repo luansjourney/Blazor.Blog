@@ -1,3 +1,4 @@
+using Blazor.Blog.Client.Services.Auth;
 using Blazor.Blog.Client.Services.Blog;
 using Blazor.Blog.Shared;
 using Blazored.LocalStorage;
@@ -27,7 +28,7 @@ namespace Blazor.Blog.Client
             builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
             builder.Services.AddOptions();
             builder.Services.AddAuthorizationCore();
-            
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
             await builder.Build().RunAsync();
         }
